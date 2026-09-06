@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon GO Infographics</title>
+    <style>
+        @font-face {
+            font-family: 'Norwester';
+            src: url('fonts/norwester.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans Regular';
+            src: url('fonts/OpenSans-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('fonts/OpenSans-Bold.ttf') format('truetype');
+        }
+
+        /* CSS Reset & Variables */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --font-norwester: 'Norwester', sans-serif;
+            --font-opensansregular: 'Open Sans Regular', sans-serif;
+            --font-opensansbold: 'Open Sans Bold', sans-serif;
+            --text-color: #272727;
+            --bg-color: #ffffff;
+        }
+
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-opensansregular);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 3rem 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Base link reset */
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+ /* --------------------------------------------------
+           2000px Max-Width Containers (Work-aligned standard)
+        -------------------------------------------------- */
+        header,
+        .hero-header-container,
+        .photo-gallery-container,
+        .project-footer {
+            max-width: 2000px;
+            width: calc(100% - 10%);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --------------------------------------------------
+           Standardized Navigation & Header
+        -------------------------------------------------- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6rem;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: #272727;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        .site-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: 1.25rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: inline-block;
+            line-height: 0;
+        }
+
+        .site-logo {
+            height: 2.7rem;
+            width: auto;
+            display: block;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .site-title:hover .site-logo {
+            opacity: 0.6;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        nav a:hover,
+        .social-links a:hover,
+        .back-link:hover {
+            color: #33cccc;
+            transition: opacity 1s ease-in, color .5s ease-in;
+        }
+
+        /* --------------------------------------------------
+           1. Dedicated Hero Image Container (Matches 2000px alignment)
+        -------------------------------------------------- */
+        .hero-header-container {
+            width: calc(100% - 10%);
+            margin-bottom: 4rem;
+        }
+
+        .hero-header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* --------------------------------------------------
+           Inner Body Content Container (Constrained 1800px)
+        -------------------------------------------------- */
+        .project-container {
+            max-width: 1800px;
+            width: calc(100% - 10%);
+            margin: 0 auto;
+            padding: 0 6rem;
+        }
+
+        .project-header,
+        .credits-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 6rem;
+            margin-bottom: 6rem;
+        }
+
+        .project-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: clamp(2.3rem, 3vw, 2.2rem);
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .project-body p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --------------------------------------------------
+           Carousels & Infinite Drag Track
+        -------------------------------------------------- */
+        .carousels-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 6rem;
+            margin-bottom: 6rem;
+        }
+
+        .photo-gallery-container {
+            overflow-x: auto;
+            width: 100%;
+            position: relative;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .photo-gallery-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .photo-gallery-container.active {
+            cursor: grabbing;
+        }
+
+        .photo-gallery {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 2rem;
+            width: max-content;
+        }
+
+        .gallery-item {
+            flex: 0 0 auto;
+            height: 450px;
+            width: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .gallery-item a {
+            display: block;
+            height: 100%;
+            width: auto;
+            pointer-events: auto;
+        }
+
+        .gallery-item img {
+            height: 100% !important;
+            width: auto !important;
+            max-height: 100%;
+            display: block;
+            object-fit: contain;
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+
+        /* --------------------------------------------------
+           Credits & Footer Sizing
+        -------------------------------------------------- */
+        .credits-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: 1.5rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .credits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .credit-row {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .credit-row .role {
+            font-family: var(--font-opensansbold);
+            font-weight: 400;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+            margin-right: 0.4rem;
+        }
+
+        .credit-row .name {
+            font-family: var(--font-opensansregular);
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .project-footer {
+            margin-top: 6rem;
+            margin-bottom: 2rem;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .back-link {
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .social-links .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: #33cccc;
+            border-radius: 6px;
+            transition: opacity 0.5s ease-in, transform 0.5s ease-in, background-color 0.5s ease-in;
+        }
+
+        .social-links .social-icon {
+            width: 1rem;
+            height: 1rem;
+            display: block;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        /* --------------------------------------------------
+           Mobile Responsive Breakpoint (750px and below)
+        -------------------------------------------------- */
+        @media (max-width: 750px) {
+            body {
+                padding: 2.5rem 2rem;
+            }
+
+            header {
+                flex-direction: row !important;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: #ffffff;
+                box-shadow: -4px 0 15px rgba(0, 0, 0, 0.08);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 3rem 2.5rem;
+                gap: 2rem;
+                transition: right 0.4s ease-in-out;
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            header,
+            .hero-header-container,
+            .photo-gallery-container,
+            .project-footer,
+            .project-container {
+                width: calc(100% - 8%);
+            }
+
+            .project-container {
+                padding: 0 0.5rem;
+            }
+
+            .project-header,
+            .credits-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .gallery-item.duplicate,
+            .gallery-item.desktop-only {
+                display: none !important;
+            }
+
+            .photo-gallery-container {
+                overflow-x: visible;
+                cursor: default;
+            }
+
+            .photo-gallery {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 1.5rem;
+                width: 100%;
+                animation: none;
+            }
+
+            .gallery-item {
+                height: auto;
+                width: 100%;
+            }
+
+            .gallery-item img {
+                height: auto !important;
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header / Navigation (Max-Width: 2000px) -->
+    <header>
+        <a href="Work.html" class="site-title">
+            <img src="Images/20250905_LogoExplorations_Logo_Colored.png" alt="Jamie Chen - Visual Designer & Animator"
+                class="site-logo">
+        </a>
+        <!-- Mobile Hamburger Toggle Button -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Navigation Menu -->
+        <nav class="nav-menu" id="nav-menu">
+            <a href="Work.html">WORK</a>
+            <a href="about.html">ABOUT</a>
+            <a href="ChenJamie_Resume.pdf" target="_blank" rel="noopener noreferrer">RESUME</a>
+        </nav>
+    </header>
+
+ <!-- 1. Dedicated Hero Header Image Container (Matches 2000px Standard Alignment) -->
+    <div class="hero-header-container">
+        <img src="Images/Work_Thumbnails/Thumbnail_PGO_Infographics.png" alt="PGO Infographics Header" class="hero-header-image">
+    </div>
+
+    <!-- 2. Main Text Details Container (1800px max width) -->
+    <main class="project-container">
+        <div class="project-header">
+            <div class="header-left">
+                <h1 class="project-title">Pokemon Go, Infographics</h1>
+            </div>
+            <div class="header-right project-body">
+                <p><a href="https://pokemongo.com/en" target="_blank" rel="noopener noreferrer" style="color: #33cccc;">Pokémon GO</a> is an AR mobile game created by <a href="https://explore.scopely.com/?hl=en" target="_blank" rel="noopener noreferrer" style="color: #33cccc;">Niantic/Scopely</a>, <a href="https://www.nintendo.com/us/" target="_blank" rel="noopener noreferrer" style="color: #33cccc;">Nintendo</a>, and <a href="https://www.pokemon.com/us" target="_blank" rel="noopener noreferrer" style="color: #33cccc;">The Pokémon Company</a> in 2016. Players can travel around the world locating, capturing, training and battling Pokémon.</p>
+                <p>While working at <a href="https://snack.video/" target="_blank" rel="noopener noreferrer" style="color: #33cccc;">Snack Creative</a>, I created infographics for social media that show content updates, upcoming events and more!</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 3. Photo Gallery Carousels (Max-Width: 2000px) -->
+    <div class="carousels-group">
+        <!-- Carousel 1 -->
+        <div class="photo-gallery-container">
+            <section class="photo-gallery">
+                <!-- SET 1 -->
+                <div class="gallery-item"><img src="Images/PGO_Infographics/(NI-470G)_PGO_August-Community-Day-2025.png" alt="PGO 1"></div>
+                <div class="gallery-item"><img src="Images/PGO_Infographics/(NI-483G) Fossil Research Day.png" alt="PGO 2"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-493G) September Community Day 2025.png" alt="PGO 3"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-495G) September Content Update_2.png" alt="PGO 4"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-498G) Mega Sharpedo Raid Day.png" alt="PGO 5"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-562G) Gigantamax Garbodor Max Battle Day.png" alt="PGO 6"></div>
+
+                <!-- SET 2 -->
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-470G)_PGO_August-Community-Day-2025.png" alt="PGO 1"></div>
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-483G) Fossil Research Day.png" alt="PGO 2"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-493G) September Community Day 2025.png" alt="PGO 3"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-495G) September Content Update_2.png" alt="PGO 4"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-498G) Mega Sharpedo Raid Day.png" alt="PGO 5"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-562G) Gigantamax Garbodor Max Battle Day.png" alt="PGO 6"></div>
+
+                <!-- SET 3 -->
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-470G)_PGO_August-Community-Day-2025.png" alt="PGO 1"></div>
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-483G) Fossil Research Day.png" alt="PGO 2"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-493G) September Community Day 2025.png" alt="PGO 3"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-495G) September Content Update_2.png" alt="PGO 4"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-498G) Mega Sharpedo Raid Day.png" alt="PGO 5"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-562G) Gigantamax Garbodor Max Battle Day.png" alt="PGO 6"></div>
+            </section>
+        </div>
+
+        <!-- Carousel 2 -->
+        <div class="photo-gallery-container">
+            <section class="photo-gallery">
+                <!-- SET 1 -->
+                <div class="gallery-item"><img src="Images/PGO_Infographics/(NI-568G) High Voltage.png" alt="PGO 1"></div>
+                <div class="gallery-item"><img src="Images/PGO_Infographics/(NI-570G) December Community Day 2025.png" alt="PGO 2"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-586G) Dynamax Lugia Max Battle Weekend.png" alt="PGO 3"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-606G) January Content Update 2026.png" alt="PGO 4"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-622G) Pinch Perfect.png" alt="PGO 5"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-626G) Feb. Community Day  - Vulpix_v02.png" alt="PGO 6"></div>
+
+                <!-- SET 2 -->
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-568G) High Voltage.png" alt="PGO 1"></div>
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-570G) December Community Day 2025.png" alt="PGO 2"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-586G) Dynamax Lugia Max Battle Weekend.png" alt="PGO 3"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-606G) January Content Update 2026.png" alt="PGO 4"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-622G) Pinch Perfect.png" alt="PGO 5"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-626G) Feb. Community Day  - Vulpix_v02.png" alt="PGO 6"></div>
+
+                <!-- SET 3 -->
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-568G) High Voltage.png" alt="PGO 1"></div>
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-570G) December Community Day 2025.png" alt="PGO 2"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-586G) Dynamax Lugia Max Battle Weekend.png" alt="PGO 3"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-606G) January Content Update 2026.png" alt="PGO 4"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-622G) Pinch Perfect.png" alt="PGO 5"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-626G) Feb. Community Day  - Vulpix_v02.png" alt="PGO 6"></div>
+            </section>
+        </div>
+
+        <!-- Carousel 3 -->
+        <div class="photo-gallery-container">
+            <section class="photo-gallery">
+                <!-- SET 1 -->
+                <div class="gallery-item"><img src="Images/PGO_Infographics/(NI-627G) GO Pass_ February.png" alt="PGO 1"></div>
+                <div class="gallery-item"><img src="Images/PGO_Infographics/(NI-643G) Into the Depths.png" alt="PGO 2"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-668G) Pokémon Pokopia Celebration Event.png" alt="PGO 3"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-698G) A Shockingly Good Time.png" alt="PGO 4"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-699G) April Community Day 2026_V1.png" alt="PGO 5"></div>
+                <div class="gallery-item"><img src="images/PGO_Infographics/(NI-700G) Replay_ Riolu Hatch Day.png" alt="PGO 6"></div>
+
+                <!-- SET 2 -->
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-627G) GO Pass_ February.png" alt="PGO 1"></div>
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-643G) Into the Depths.png" alt="PGO 2"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-668G) Pokémon Pokopia Celebration Event.png" alt="PGO 3"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-698G) A Shockingly Good Time.png" alt="PGO 4"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-699G) April Community Day 2026_V1.png" alt="PGO 5"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-700G) Replay_ Riolu Hatch Day.png" alt="PGO 6"></div>
+
+                <!-- SET 3 -->
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-627G) GO Pass_ February.png" alt="PGO 1"></div>
+                <div class="gallery-item duplicate"><img src="Images/PGO_Infographics/(NI-643G) Into the Depths.png" alt="PGO 2"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-668G) Pokémon Pokopia Celebration Event.png" alt="PGO 3"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-698G) A Shockingly Good Time.png" alt="PGO 4"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-699G) April Community Day 2026_V1.png" alt="PGO 5"></div>
+                <div class="gallery-item duplicate"><img src="images/PGO_Infographics/(NI-700G) Replay_ Riolu Hatch Day.png" alt="PGO 6"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Content Block 2 (Constrained to 1600px with extra width padding) -->
+    <main class="project-container">
+
+        <!-- 4. Legal Line  -->
+        <div style="text-align: center;">
+            <p>© 2026 Pokémon. © 1995–2026 Nintendo/Creatures Inc./GAME FREAK inc. Pokémon, Pokémon character names,
+                Nintendo Switch, Nintendo 3DS, Nintendo DS, Wii, Wii U, and WiiWare are trademarks of Nintendo.</p>
+        </div>
+
+        <!-- 5. Credits Section -->
+        <section class="credits-section">
+            <div class="credits-left">
+                <h2 class="credits-title">CREDITS</h2>
+            </div>
+            <div class="credits-right credits-list">
+                <div class="credit-row">
+                    <span class="role">Client:</span>
+                    <span class="name">Niantic & Scopely</span>
+                </div>
+                <div class="credit-row">
+                    <span class="role">ART LEAD:</span>
+                    <span class="name">Tee Tan</span>
+                </div>
+                <div class="credit-row">
+                    <span class="role">Graphic Design:</span>
+                    <span class="name">Jamie Chen</span>
+                </div>
+                <div class="credit-row">
+                    <span class="role">CREATIVE PRODUCER:</span>
+                    <span class="name">Adeline Minton</span>
+                </div>
+                <div class="credit-row">
+                    <span class="role">TEAM:</span>
+                    <span class="name">Hannah Fortune, Mia Ciancaglini</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Back Link & Social Links (Max-Width: 2000px) -->
+    <footer class="project-footer">
+        <a href="Work.html" class="back-link">JAMIE CHEN</a>
+        <div class="social-links">
+            <a href="https://www.behance.net/jjcmanga" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="Behance">
+                <img src="Images/SocialIcons/Behance_SVG.svg" alt="Behance" class="social-icon">
+            </a>
+            <a href="https://vimeo.com/jjcmanga" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="Vimeo">
+                <img src="Images/SocialIcons/Vimeo_SVG.svg" alt="Vimeo" class="social-icon">
+            </a>
+            <a href="https://www.linkedin.com/in/jamjchen/" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="LinkedIn">
+                <img src="Images/SocialIcons/LinkedIn_SVG.svg" alt="LinkedIn" class="social-icon">
+            </a>
+
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        // Toggle menu and hamburger icon state
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a nav link is clicked
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+
+    <script>
+        const sliders = document.querySelectorAll('.photo-gallery-container');
+
+        sliders.forEach((slider, index) => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let isHovered = false;
+
+            // Direction: Index 1 (second carousel) moves reverse (-1), others move forward (1)
+            const direction = (index === 1) ? -1 : 1;
+
+            // Set initial scroll position for reverse carousel so it has room to scroll backwards
+            if (direction === -1) {
+                slider.scrollLeft = slider.scrollWidth / 3;
+            }
+
+            function autoScroll() {
+                if (window.innerWidth > 750 && !isDown && !isHovered) {
+                    // Apply directional movement
+                    slider.scrollLeft += (0.8 * direction);
+
+                    const oneThirdScroll = slider.scrollWidth / 3;
+
+                    // Loop reset conditions
+                    if (direction === 1) {
+                        // Forward scrolling reset
+                        if (slider.scrollLeft >= oneThirdScroll * 2) {
+                            slider.scrollLeft -= oneThirdScroll;
+                        } else if (slider.scrollLeft <= 0) {
+                            slider.scrollLeft += oneThirdScroll;
+                        }
+                    } else {
+                        // Reverse scrolling reset
+                        if (slider.scrollLeft <= 0) {
+                            slider.scrollLeft += oneThirdScroll;
+                        } else if (slider.scrollLeft >= oneThirdScroll * 2) {
+                            slider.scrollLeft -= oneThirdScroll;
+                        }
+                    }
+                }
+                requestAnimationFrame(autoScroll);
+            }
+            requestAnimationFrame(autoScroll);
+
+            // Hover events
+            slider.addEventListener('mouseenter', () => isHovered = true);
+            slider.addEventListener('mouseleave', () => {
+                isHovered = false;
+                isDown = false;
+                slider.classList.remove('active');
+            });
+
+            // Mouse Drag events
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('active');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 1.2;
+                slider.scrollLeft = scrollLeft - walk;
+
+                const oneThirdScroll = slider.scrollWidth / 3;
+                if (slider.scrollLeft >= oneThirdScroll * 2) {
+                    slider.scrollLeft -= oneThirdScroll;
+                    scrollLeft -= oneThirdScroll;
+                } else if (slider.scrollLeft <= 0) {
+                    slider.scrollLeft += oneThirdScroll;
+                    scrollLeft += oneThirdScroll;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

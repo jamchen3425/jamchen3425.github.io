@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamie Chen - Visual Designer &amp; Animator</title>
+    <style>
+        @font-face {
+            font-family: 'Norwester';
+            src: url('fonts/norwester.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans Regular';
+            src: url('fonts/OpenSans-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('fonts/OpenSans-Bold.ttf') format('truetype');
+        }
+
+        /* CSS Reset & Variables */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --font-norwester: 'Norwester', sans-serif;
+            --font-opensansregular: 'Open Sans Regular', sans-serif;
+            --font-opensansbold: 'Open Sans Bold', sans-serif;
+            --text-color: #272727;
+            --bg-color: #ffffff;
+        }
+
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #272727;
+            padding: 3rem 0;
+            /* Matches Code B vertical padding */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Update 2: Standardized 2000px container width for header, grid, and footer */
+        header,
+        .project-grid,
+        .project-footer {
+            max-width: 2000px;
+            width: calc(100% - 10%);
+            /* Keeps matching 5% margin on each side */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Base link reset: removes browser default blue/purple colors and underlines */
+        a,
+        a:visited {
+            color: #272727;
+            text-decoration: none;
+        }
+
+        header,
+        .photo-gallery-container,
+        .project-footer {
+            max-width: 2000px;
+            width: calc(100% - 10%);
+            /* Keeps 5% margin on each side dynamically */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6rem;
+        }
+
+        /* Hide Hamburger Button on Desktop */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+            /* Keep above slide-out menu */
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: #272727;
+            /* Matches your body text color */
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hamburger "X" Animation when open */
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        .site-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: 1.25rem;
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Logo Container Link */
+        .site-title {
+            display: inline-block;
+            line-height: 0;
+            /* Prevents unwanted bottom spacing under the image */
+        }
+
+        /* Logo Image Sizing */
+        .site-logo {
+            height: 2.7rem;
+            /* Adjust height to match your desired header scale */
+            width: auto;
+            /* Maintains aspect ratio */
+            display: block;
+            transition: opacity 0.5s ease-in;
+        }
+
+        /* Hover effect for logo (matches back-link transition) */
+        .site-title:hover .site-logo {
+            opacity: 0.6;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        nav a:hover,
+        .social-links a:hover,
+        .back-link:hover {
+            color: #33cccc;
+            transition: opacity 1s ease-in, color .5s ease-in;
+        }
+
+        /* Desktop Grid (Default) */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 1vw;
+            row-gap: 2em;
+        }
+
+        .project-item {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: #272727;
+        }
+
+        /* Image Wrapper & Growth Parameters */
+        .image-wrapper {
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            background-color: #fafafa;
+            overflow: hidden;
+            margin-bottom: 0.8rem;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+        }
+
+        /* Grow interaction on hover */
+        .project-item:hover .image-wrapper img {
+            transform: scale(1.06);
+            opacity: 0.95;
+        }
+
+        /* 
+           Typography & Meta Info (Custom Fonts)
+        */
+        .project-title {
+            font-family: var(--font-opensansbold);
+            /* Custom title font */
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Footer Mirroring Header Layout */
+        .project-footer {
+            margin-top: 6rem;
+            margin-bottom: 2rem;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .back-link {
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        /* Button Styling */
+        .social-links .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: #33cccc;
+            border-radius: 6px;
+            /* Set to 50% for circular buttons */
+            transition: opacity 0.5s ease-in, transform 0.5s ease-in, background-color 0.5s ease-in;
+        }
+
+        /* Icon Sizing inside Button */
+        .social-links .social-icon {
+            width: 1rem;
+            height: 1rem;
+            display: block;
+            object-fit: contain;
+            /* Optional: turns black SVG icons white to contrast against #33cccc */
+            filter: brightness(0) invert(1);
+        }
+
+        /* Hover Effect with Slow Ease-In */
+        .social-links .social-btn:hover {
+            opacity: 0.75;
+            /* Gentle lift on hover */
+        }
+
+        .project-tags {
+            font-family: var(--font-opensansregular);
+            /* Custom tag font */
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+        }
+
+        /* Responsive Breakpoint: Medium screens / Tablets */
+        @media (max-width: 1100px) {
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 2vw;
+                row-gap: 3rem;
+            }
+        }
+
+        /* Responsive Breakpoint: Mobile viewports */
+        @media (max-width: 750px) {
+            body {
+                padding: 2.5rem 2rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 2rem;
+                margin-bottom: 4rem;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+                row-gap: 2.5rem;
+            }
+        }
+
+        /* ==========================================
+        MOBILE BREAKPOINT (750px and below)
+         ========================================== */
+        @media (max-width: 750px) {
+            header {
+                flex-direction: row !important;
+                /* Overrides mobile column rule */
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+            }
+
+            /* Show Hamburger Button on Right Side */
+            .hamburger {
+                display: flex;
+            }
+
+            /* Mobile Navigation Slide-Out Overlay */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                /* Hidden off-screen to the right by default */
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: #ffffff;
+                box-shadow: -4px 0 15px rgba(0, 0, 0, 0.08);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 3rem 2.5rem;
+                gap: 2rem;
+                transition: right 0.4s ease-in-out;
+                z-index: 1000;
+            }
+
+            /* Slide in when open class is applied */
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu a {
+                font-size: 1.1rem;
+                letter-spacing: 0.05em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header / Navigation (Max-Width: 2000px) -->
+    <header>
+        <a href="Work.html" class="site-title">
+            <img src="Images/20250905_LogoExplorations_Logo_Colored.png" alt="Jamie Chen - Visual Designer & Animator"
+                class="site-logo">
+        </a>
+        <!-- Mobile Hamburger Toggle Button -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Navigation Menu -->
+        <nav class="nav-menu" id="nav-menu">
+            <a href="Work.html">WORK</a>
+            <a href="about.html">ABOUT</a>
+            <a href="ChenJamie_Resume.pdf" target="_blank" rel="noopener noreferrer">RESUME</a>
+        </nav>
+    </header>
+
+    <main class="project-grid">
+
+        <!-- Project 1: Forza -->
+        <a href="forza-racingchampionships-broadcastpackage.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_FORZA.gif" alt="Forza Broadcast Package">
+            </div>
+            <h2 class="project-title">FORZA, RACING CHAMPIONSHIP BROADCAST PACKAGE</h2>
+            <p class="project-tags">Graphic Design, Motion Design</p>
+        </a>
+
+        <!-- Project 2: Pokemon Go Social -->
+        <a href="pgo-social-videos.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_PGO_Videos.png" alt="Pokémon GO Social Videos">
+            </div>
+            <h2 class="project-title">POKEMON GO, SOCIAL VIDEOS</h2>
+            <p class="project-tags">Motion Design, Gameplay Capture</p>
+        </a>
+
+        <!-- Project 3: Call of Duty -->
+        <a href="cod-mp-gameplaypremiere.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_CoD.gif" alt="Call of Duty Broadcast Package">
+            </div>
+            <h2 class="project-title">CALL OF DUTY, MULTIPLAYER BROADCAST PACKAGE</h2>
+            <p class="project-tags">Graphic Design, Motion Design</p>
+        </a>
+
+        <!-- Project 4: Pokemon Go Infographics -->
+        <a href="pgo-infographics.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_PGO_Infographics.png" alt="Pokémon GO Infographics">
+            </div>
+            <h2 class="project-title">POKÉMON GO, INFOGRAPHICS</h2>
+            <p class="project-tags">Graphic Design</p>
+        </a>
+
+        <!-- Project 5: Harry Potter Diaries -->
+        <a href="hphm-hogwartsdiaries-trailer.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_HPHM_HD.gif" alt="Harry Potter Hogwarts Diaries Trailer">
+            </div>
+            <h2 class="project-title">HARRY POTTER: HOGWARTS MYSTERY, HOGWARTS DIARIES TRAILER</h2>
+            <p class="project-tags">Motion Design, Gameplay Capture</p>
+        </a>
+
+        <!-- Project 6: MTG Update -->
+        <a href="mtg-esportsupdate-graphics.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_MTG_Update.jpg" alt="Magic The Gathering Esports Update">
+            </div>
+            <h2 class="project-title">MAGIC THE GATHERING, ESPORTS UPDATE GRAPHICS</h2>
+            <p class="project-tags">Graphic Design</p>
+        </a>
+
+        <!-- Project 7: Disney Emoji Blitz -->
+        <a href="deb-marketing-ads.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_DEB.gif" alt="Disney Emoji Blitz Marketing Ads">
+            </div>
+            <h2 class="project-title">DISNEY EMOJI BLITZ, MARKETING ADS</h2>
+            <p class="project-tags">Motion Design</p>
+        </a>
+
+        <!-- Project 8: League of Legends -->
+        <a href="lol-summonericon.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_LoL.gif" alt="League of Legends Case Study">
+            </div>
+            <h2 class="project-title">LEAGUE OF LEGENDS, SUMMONER ICON CASE STUDY</h2>
+            <p class="project-tags">UX/UI Design</p>
+        </a>
+
+        <!-- Project 9: Beyond Hogwarts Trailer -->
+        <a href="hphm-beyondhogwarts-trailer.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_HPHM_BH.gif" alt="Harry Potter Beyond Hogwarts Trailer">
+            </div>
+            <h2 class="project-title">HARRY POTTER: HOGWARTS MYSTERY, BEYOND HOGWARTS TRAILER</h2>
+            <p class="project-tags">Motion Design, Gameplay Capture</p>
+        </a>
+
+        <!-- Project 10: MTG Future -->
+        <a href="mtg-esportsfuture-graphics.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_MTG_Future.jpg" alt="Magic The Gathering Future Graphics">
+            </div>
+            <h2 class="project-title">MAGIC THE GATHERING, ESPORTS FUTURE GRAPHICS</h2>
+            <p class="project-tags">Graphic Design</p>
+        </a>
+
+        <!-- Project 11: HPHM Marketing Ads -->
+        <a href="hphm-marketing-ads.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_HPHM_Ads.gif"
+                    alt="Harry Potter: Hogwarts Mystery, Marketing Ads">
+            </div>
+            <h2 class="project-title">HARRY POTTER: HOGWARTS MYSTERY, MARKETING ADS</h2>
+            <p class="project-tags">Graphic Design, Motion Design</p>
+        </a>
+
+        <!-- Project 12: Apex Legends Case Study -->
+        <a href="al-legend-selection.html" class="project-item">
+            <div class="image-wrapper">
+                <img src="Images/Work_Thumbnails/Thumbnail_AL.gif" alt="Apex Legends, Character Selection Case Study">
+            </div>
+            <h2 class="project-title">APEX LEGENDS, CHARACTER SELECTION CASE STUDY</h2>
+            <p class="project-tags">UX/UI Design</p>
+        </a>
+
+    </main>
+
+    <!-- Footer Back Link & Social Links (Max-Width: 2000px) -->
+    <footer class="project-footer">
+        <a href="Work.html" class="back-link">JAMIE CHEN</a>
+        <div class="social-links">
+            <a href="https://www.behance.net/jjcmanga" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="Behance">
+                <img src="Images/SocialIcons/Behance_SVG.svg" alt="Behance" class="social-icon">
+            </a>
+            <a href="https://vimeo.com/jjcmanga" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="Vimeo">
+                <img src="Images/SocialIcons/Vimeo_SVG.svg" alt="Vimeo" class="social-icon">
+            </a>
+            <a href="https://www.linkedin.com/in/jamjchen/" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="LinkedIn">
+                <img src="Images/SocialIcons/LinkedIn_SVG.svg" alt="LinkedIn" class="social-icon">
+            </a>
+
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        // Toggle menu and hamburger icon state
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a nav link is clicked
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+
+</body>
+
+</html>

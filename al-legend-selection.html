@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legend Selection Case Study</title>
+    <style>
+        @font-face {
+            font-family: 'Norwester';
+            src: url('fonts/norwester.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans Regular';
+            src: url('fonts/OpenSans-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans Bold';
+            src: url('fonts/OpenSans-Bold.ttf') format('truetype');
+        }
+
+        /* CSS Reset & Variables */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --font-norwester: 'Norwester', sans-serif;
+            --font-opensansregular: 'Open Sans Regular', sans-serif;
+            --font-opensansbold: 'Open Sans Bold', sans-serif;
+            --text-color: #272727;
+            --bg-color: #ffffff;
+        }
+
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-opensansregular);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 3rem 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Base link reset */
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --------------------------------------------------
+           2000px Max-Width Containers (Work-aligned standard)
+        -------------------------------------------------- */
+        header,
+        .photo-gallery-container,
+        .project-footer {
+            max-width: 2000px;
+            width: calc(100% - 10%);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Standardized Header Navigation (Matches Work Page) */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6rem;
+        }
+
+
+
+        /* Hide Hamburger Button on Desktop */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: #272727;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        .site-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: 1.25rem;
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: inline-block;
+            line-height: 0;
+        }
+
+        /* Logo Image Sizing */
+        .site-logo {
+            height: 2.7rem;
+            width: auto;
+            display: block;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .site-title:hover .site-logo {
+            opacity: 0.6;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        nav a:hover,
+        .social-links a:hover,
+        .back-link:hover {
+            color: #33cccc;
+            transition: opacity 1s ease-in, color .5s ease-in;
+        }
+
+        .project-bullet-list {
+            margin-top: 1rem;
+            padding-left: 1.25rem;
+            list-style-type: disc;
+        }
+
+        .project-bullet-list li {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-bullet-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Custom indentation class */
+        .tabbed-text {
+            margin-left: 2rem;
+            /* Adjust width: 1.5rem to 3rem based on how far you want to tab */
+        }
+
+        /* --------------------------------------------------
+           ORIGINAL FORZA SPACING & LAYOUT (Preserved)
+        -------------------------------------------------- */
+        .project-container {
+            max-width: 1800px;
+            width: calc(100% - 10%);
+            margin: 0 auto;
+            padding: 0 6rem;
+        }
+
+        /* Video Embed Container */
+        .video-embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 6rem;
+            margin-top: 2rem;
+            background-color: #f0f0f0;
+        }
+
+        .video-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+
+        /* Standalone Hero Image Container Spacing */
+        .hero-image-container {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .hero-image-container .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-header-special {
+            display: block;
+            width: 100%;
+            margin-top: 6rem;
+            margin-bottom: 6rem;
+        }
+
+        /* Two-Column Grid Layout (Project Header & Credits) */
+        .project-header,
+        .credits-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 6rem;
+            margin-bottom: 6rem;
+        }
+
+        .project-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: clamp(2.3rem, 3vw, 2.2rem);
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .project-body p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Scope regular photo gallery images to project width */
+        .photo-gallery {
+            width: 100%;
+            max-width: var(--project-content-width, 100%);
+            margin: 0 auto 4rem auto;
+        }
+
+        .photo-gallery .gallery-item {
+            width: 100%;
+        }
+
+        .photo-gallery .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Medium Breakpoint: 2 Columns (Tablets / Laptops under 1024px) */
+        @media (max-width: 1024px) {
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        /* Mobile Breakpoint: 1 Column (Phones under 600px) */
+        @media (max-width: 600px) {
+            .photo-gallery {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Image Caption Styling */
+        .image-caption {
+            font-style: italic;
+            margin-top: 0.75rem;
+            /* Gap between image and text */
+            font-size: 0.95rem;
+            color: #666666;
+            /* Optional subtle caption color */
+        }
+
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            /* Adjust aspect ratio to fit your images */
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Base Underneath Image (Image B - Full Width) */
+        .comparison-slider .image-b {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* Top Overlay Image Wrapper (Image A) */
+        .comparison-slider .image-a-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 25%;
+            /* Changed from 50% to 25% */
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .comparison-slider .image-a-wrapper img {
+            height: 100%;
+            /* Fix width to slider container width so image doesn't stretch/squish on slide */
+            width: 900px;
+            /* Should match max-width of .comparison-slider */
+            max-width: none;
+            object-fit: cover;
+        }
+
+        /* Hidden Range Input overlay */
+        .comparison-slider .slider-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: ew-resize;
+            margin: 0;
+            z-index: 10;
+        }
+
+        /* Vertical Line Container (replaces solid background with pseudo-element segments) */
+        .comparison-slider .slider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 25%;
+            /* Changed from 50% to 25% */
+            width: 48px;
+            pointer-events: none;
+            z-index: 5;
+            transform: translateX(-50%);
+        }
+
+        /* Top Line Segment (stops at top edge of circle) */
+        .comparison-slider .slider-line::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: calc(50% + 22px);
+            /* Half circle height (44px / 2 = 22px) */
+            left: 50%;
+            width: 3px;
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+            transform: translateX(-50%);
+        }
+
+        /* Bottom Line Segment (starts at bottom edge of circle) */
+        .comparison-slider .slider-line::after {
+            content: "";
+            position: absolute;
+            top: calc(50% + 22px);
+            /* Half circle height */
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+            transform: translateX(-50%);
+        }
+
+        /* Hollow Slider Button */
+        .comparison-slider .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 48px;
+            /* Slightly wider to accommodate bold arrows */
+            height: 48px;
+            background-color: transparent;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+            /* Fine-tune edge padding */
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
+        }
+
+        /* Bigger & Thicker Arrow Spans */
+        .comparison-slider .slider-arrow {
+            color: #ffffff;
+            font-size: 16px;
+            /* Increased font size */
+            font-weight: 900;
+            /* Extra bold weight */
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            /* Slightly wider container */
+            height: 100%;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Credits Section Specifics */
+        .credits-title {
+            font-family: var(--font-norwester);
+            font-weight: 400;
+            font-size: 1.5rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .credits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .credit-row {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .credit-row .role {
+            font-family: var(--font-opensansbold);
+            font-weight: 400;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+            margin-right: 0.4rem;
+        }
+
+        .credit-row .name {
+            font-family: var(--font-opensansregular);
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* Footer Layout */
+        .project-footer {
+            margin-top: 6rem;
+            margin-bottom: 2rem;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .back-link {
+            font-family: var(--font-norwester);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .social-links .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: #33cccc;
+            border-radius: 6px;
+            transition: opacity 0.5s ease-in, transform 0.5s ease-in, background-color 0.5s ease-in;
+        }
+
+        .social-links .social-icon {
+            width: 1rem;
+            height: 1rem;
+            display: block;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .social-links .social-btn:hover {
+            opacity: 0.75;
+        }
+
+        /* ==========================================
+           MOBILE BREAKPOINT (750px and below)
+           (Navigation aligned with Work page)
+           ========================================== */
+        @media (max-width: 750px) {
+            body {
+                padding: 2.5rem 2rem;
+            }
+
+            header {
+                flex-direction: row !important;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+            }
+
+            /* Show Hamburger Button on Right Side */
+            .hamburger {
+                display: flex;
+            }
+
+            /* Mobile Navigation Slide-Out Overlay */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: #ffffff;
+                box-shadow: -4px 0 15px rgba(0, 0, 0, 0.08);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 3rem 2.5rem;
+                gap: 2rem;
+                transition: right 0.4s ease-in-out;
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu a {
+                font-size: 1.1rem;
+                letter-spacing: 0.05em;
+            }
+
+            /* Forza-specific mobile responsive spacing */
+            header,
+            .photo-gallery-container,
+            .project-footer,
+            .project-container {
+                width: calc(100% - 8%);
+            }
+
+            .project-container {
+                padding: 0 0.5rem;
+            }
+
+            .project-header,
+            .credits-section,
+            .photo-gallery {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Gallery items cursor pointer */
+        .gallery-item img {
+            cursor: pointer;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        /* Lightbox Background Container */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        /* Expanded Full-Page Image */
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* "X" Close Button */
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            color: #33cccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header / Navigation (Max-Width: 2000px) -->
+    <header>
+        <a href="Work.html" class="site-title">
+            <img src="Images/20250905_LogoExplorations_Logo_Colored.png" alt="Jamie Chen - Visual Designer & Animator"
+                class="site-logo">
+        </a>
+        <!-- Mobile Hamburger Toggle Button -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Navigation Menu -->
+        <nav class="nav-menu" id="nav-menu">
+            <a href="Work.html">WORK</a>
+            <a href="about.html">ABOUT</a>
+            <a href="ChenJamie_Resume.pdf" target="_blank" rel="noopener noreferrer">RESUME</a>
+        </nav>
+    </header>
+
+    <main class="project-container">
+        <div class="video-embed-container">
+            <iframe
+                src="https://player.vimeo.com/video/536672248?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                title="Apex Legends: Legend Selection" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+        <!-- Project Header / Body Text -->
+        <div class="project-header">
+            <div class="header-left">
+                <h1 class="project-title">Apex Legends, Legend Selection Case Study</h1>
+            </div>
+            <div class="header-right project-body">
+                <p>Created by Riot Games in 2009, <a href="https://www.ea.com/games/apex-legends/apex-legends"
+                        target="_blank" rel="noopener noreferrer" style="color: #33cccc;">Apex Legends,</a> created by
+                    Respawn Entertainment, is a first person shooter battle royale game where teams of three compete to
+                    be the last team standing. With over 8 million players weekly, Apex Legends is an overwhelming
+                    success however, I believe there are improvements that can be made to the player experience. In this
+                    project, I critiqued the Apex Legends game client and presented a new quality of life feature.</p>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/Octane-01.jpg" alt="Octane" style="pointer-events: none; user-select: none;">
+                <p class="image-caption">Image from Respawn Entertainment and The Mill</p>
+            </div>
+        </section>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">Challenge</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>When players queue up for the game, they are taken to the Legend Selection where they pick a legend
+                    to play or get a random one. This current method has the possibility to make players use a legend
+                    they don’t want or don’t know how to play. I wanted to use my skills as a designer and a dedicated
+                    Apex Legends player to explore ways to improve the player experience.</p>
+                <p>After reviewing community feedback and conducting guerilla interviews, players’ main desire is that
+                    they can play the Legend they want to play. Using my experience as a player and designer, I listed
+                    problems in the client:</p>
+                <ul class="project-bullet-list">
+                    <li>Looking at a Legend skin resets the selected Legend</li>
+                    <li>Legend’s skills are not visually represented in the client</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/20210815_Apex_LegendSelection_assets_RedditComments.jpg"
+                    style="pointer-events: none; user-select: none;" alt="Apex Legends, Comments">
+                <p class="image-caption">Comments taken from the Apex Legends Subreddit</p>
+            </div>
+        </section>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">COMPETITIVE ANALYSIS</h2>
+            </div>
+            <div class="header-right project-body">
+                <p> I compiled Apex Legends artwork and gaming client interfaces that I wanted to critique and take
+                    inspiration from.
+                </p>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/20210815_Apex_LegendSelection_assets_Moodboard.jpg"
+                    style="pointer-events: none; user-select: none;" alt="Apex Legends, inspiration">
+                <p class="image-caption">Images from Apex Legends, Valorant, Overwatch and Ollie Hoff</p>
+            </div>
+        </section>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">SURVEYING PLAYERS</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>I put together a list of questions to learn more about players’ habits and discovered that many are
+                    not solely focused on the game while in queue.</p>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/20210815_Apex_LegendSelection_assets_Iterations+copy.jpg"
+                    alt="Apex Legends, survey">
+            </div>
+        </section>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">USERFLOW ANALYSIS</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>I created a userflow of the steps taken to choose a Legend and I can understand why it might be
+                    frustrating for players that don’t get their desired Legends.</p>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/20210815_Apex_LegendSelection_assets_Userflow.jpg" alt="Apex Legends, userflow">
+            </div>
+        </section>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">CLIENT INTERFACE INTERACTIONS</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>After looking at inspiration and surveying players, I created sketches, wireframes and digital
+                    layouts of the Apex Legends client.</p>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/20210815_Apex_LegendSelection_assets_Iterations.jpg"
+                    alt="Apex Legends, iterations">
+            </div>
+        </section>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">
+                    HOME PAGE</h2>
+            </div>
+            <div class="header-right project-body">
+                <p> The new Home Page features buttons that show a player’s Secondary and Tertiary chosen Legends while
+                    adhering to the client’s hierarchical rules.</p>
+            </div>
+        </div>
+
+        <!-- Comparison Slider Image -->
+        <div class="comparison-slider">
+            <img src="Images/Apex/Home_2.jpg" alt="After View" class="image-b">
+
+            <div class="image-a-wrapper">
+                <img src="Images/Apex/Home.png" alt="Before View" class="image-a">
+            </div>
+
+            <div class="slider-line">
+                <div class="slider-button">
+                    <span class="slider-arrow">&#10094;</span>
+                    <span class="slider-arrow">&#10095;</span>
+                </div>
+            </div>
+
+            <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Image comparison slider">
+        </div>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">
+                    LEGEND TAB</h2>
+            </div>
+            <div class="header-right project-body">
+                <p> This new design has visual clues that show players which Legends they have chosen.</p>
+            </div>
+        </div>
+
+        <!-- Comparison Slider Image -->
+        <div class="comparison-slider">
+            <img src="Images/Apex/LegendTab_2.jpg" alt="After View" class="image-b">
+
+            <div class="image-a-wrapper">
+                <img src="Images/Apex/LegendTab.png" alt="Before View" class="image-a">
+            </div>
+            <div class="slider-line">
+                <div class="slider-button">
+                    <span class="slider-arrow">&#10094;</span>
+                    <span class="slider-arrow">&#10095;</span>
+                </div>
+            </div>
+            <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Image comparison slider">
+        </div>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">
+                    INDIVIDUAL LEGEND TAB</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>
+
+                    The new layout of an individual Legend includes videos that show off abilities and an area where
+                    players can make the Legend a Primary, Secondary or Tertiary pick.</p>
+            </div>
+        </div>
+
+        <!-- Comparison Slider Image -->
+        <div class="comparison-slider">
+            <img src="Images/Apex/IndividualLegend.jpg" alt="After View" class="image-b">
+
+            <div class="image-a-wrapper">
+                <img src="Images/Apex/LegendIndividual.png" alt="Before View" class="image-a">
+            </div>
+            <div class="slider-line">
+                <div class="slider-button">
+                    <span class="slider-arrow">&#10094;</span>
+                    <span class="slider-arrow">&#10095;</span>
+                </div>
+            </div>
+            <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Image comparison slider">
+        </div>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">LEGEND SELECT</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>The new design of the Legend Selection screen gives players more control by:</p>
+                <ul class="project-bullet-list">
+                    <li>Highlighting teammates’ Primary Legend</li>
+                    <li>Showing players their Secondary and Tertiary Legends</li>
+                    <li>Allowing players to click on a Legend that isn’t a preset one</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Comparison Slider Image -->
+        <div class="comparison-slider">
+            <img src="Images/Apex/LegendSelection.jpg" alt="After View" class="image-b">
+
+            <div class="image-a-wrapper">
+                <img src="Images/Apex/LegendSelection.png" alt="Before View" class="image-a">
+            </div>
+            <div class="slider-line">
+                <div class="slider-button">
+                    <span class="slider-arrow">&#10094;</span>
+                    <span class="slider-arrow">&#10095;</span>
+                </div>
+            </div>
+            <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Image comparison slider">
+        </div>
+
+        <div class="project-header">
+            <div class="header-left">
+                <h2 class="credits-title">COMMUNITY FEEDBACK</h2>
+            </div>
+            <div class="header-right project-body">
+                <p>I posted my design on the Apex Legends subreddit and was excited with the reaction from the
+                    community.</p>
+                <p class="tabbed-text"><strong><i>3,300+ upvotes</i></strong></p>
+                <p class="tabbed-text"><strong><i>20 awards</i></strong></p>
+                <p class="tabbed-text"><strong><i>160+ comments on Reddit</i></strong></p>
+                <p> Even thought not everyone liked with my designed feature, I’m glad I was able to get the community
+                    talking about game design and other features that will improve Apex Legends.
+                </p>
+            </div>
+        </div>
+
+        <!-- Regular Image Container (Constrained to header/project text width) -->
+        <section class="photo-gallery">
+            <div class="gallery-item">
+                <img src="Images/Apex/20210815_Apex_LegendSelection_assets_RedditComments2.jpg"
+                    style="pointer-events: none; user-select: none;" alt="Apex Legends, inspiration">
+                <p class="image-caption">Comments taken my post on the Apex Legends Subreddit</p>
+            </div>
+        </section>
+
+        <div class="video-embed-container">
+            <iframe
+                src="https://player.vimeo.com/video/536672248?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                title="Apex Legends: Legend Selection" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+    </main>
+
+    <!-- Footer Back Link & Social Links (Max-Width: 2000px) -->
+    <footer class="project-footer">
+        <a href="Work.html" class="back-link">JAMIE CHEN</a>
+        <div class="social-links">
+            <a href="https://www.behance.net/jjcmanga" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="Behance">
+                <img src="Images/SocialIcons/Behance_SVG.svg" alt="Behance" class="social-icon">
+            </a>
+            <a href="https://vimeo.com/jjcmanga" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="Vimeo">
+                <img src="Images/SocialIcons/Vimeo_SVG.svg" alt="Vimeo" class="social-icon">
+            </a>
+            <a href="https://www.linkedin.com/in/jamjchen/" target="_blank" rel="noopener noreferrer" class="social-btn"
+                aria-label="LinkedIn">
+                <img src="Images/SocialIcons/LinkedIn_SVG.svg" alt="LinkedIn" class="social-icon">
+            </a>
+
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        // Toggle menu and hamburger icon state
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a nav link is clicked
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.querySelector('.lightbox-close');
+            const galleryImages = document.querySelectorAll('.photo-gallery .gallery-item img');
+
+            // Open Lightbox on Image Click
+            galleryImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Stop background scrolling
+                });
+            });
+
+            // Close Lightbox Function
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                lightboxImg.src = '';
+                document.body.style.overflow = ''; // Restore background scrolling
+            };
+
+            // Close on 'X' button click
+            closeBtn.addEventListener('click', closeLightbox);
+
+            // Close on clicking outside the image (dark background)
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Close on Esc key press
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Select all slider containers on the page
+        const sliders = document.querySelectorAll('.comparison-slider');
+
+        sliders.forEach(slider => {
+            const sliderInput = slider.querySelector('.slider-input');
+            const imageAWrapper = slider.querySelector('.image-a-wrapper');
+            const sliderLine = slider.querySelector('.slider-line');
+            const imageA = slider.querySelector('.image-a');
+
+            // Keep top image width locked to slider container width
+            function updateImageWidth() {
+                imageA.style.width = `${slider.offsetWidth}px`;
+            }
+
+            // Handle range slider movements for this specific instance
+            function handleSlide(e) {
+                const value = e.target.value;
+                imageAWrapper.style.width = `${value}%`;
+                sliderLine.style.left = `${value}%`;
+            }
+
+            sliderInput.addEventListener('input', handleSlide);
+            window.addEventListener('resize', updateImageWidth);
+
+            // Initial width alignment
+            updateImageWidth();
+        });
+    </script>
+</body>
+
+</html>
